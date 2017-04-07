@@ -57,8 +57,7 @@ public class OchoOMasGUI extends JFrame {
 	}
 
 	private void refresque() {
-		// TODO Auto-generated method stub
-
+		SwingUtilities.updateComponentTreeUI(this);
 	}
 
 	private void prepareElementosTablero() {
@@ -140,7 +139,7 @@ public class OchoOMasGUI extends JFrame {
 		explorer.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		if (explorer.showOpenDialog(open) == JFileChooser.APPROVE_OPTION) {
 			JOptionPane.showMessageDialog(this, 
-					"Metodo open en Construccion,pero el number del archivo es: " + explorer.getSelectedFile().getName());
+					"Metodo open en Construccion,pero el nombre del archivo es: " + explorer.getSelectedFile().getName());
 		}
 	}
 	private void guarde() {
@@ -149,7 +148,7 @@ public class OchoOMasGUI extends JFrame {
 		explorer.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		if (explorer.showOpenDialog(open) == JFileChooser.APPROVE_OPTION) {
 			JOptionPane.showMessageDialog(this, 
-					"Metodo open en Construccion,pero el number del archivo es: " + explorer.getSelectedFile().getName());
+					"Metodo open en Construccion,pero el nombre del archivo es: " + explorer.getSelectedFile().getName());
 		}
 	}
 	private void salga() {
