@@ -140,10 +140,18 @@ public class OchoOMasGUI extends JFrame {
 		explorer.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		if (explorer.showOpenDialog(open) == JFileChooser.APPROVE_OPTION) {
 			JOptionPane.showMessageDialog(this, 
-					"Metodo en Constrccion,pero su ruta es" + explorer.getSelectedFile().getAbsolutePath());
+					"Metodo open en Construccion,pero el number del archivo es: " + explorer.getSelectedFile().getName());
 		}
 	}
-
+	private void guarde() {
+		explorer = new JFileChooser();
+		explorer.setDialogTitle("Open");
+		explorer.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		if (explorer.showOpenDialog(open) == JFileChooser.APPROVE_OPTION) {
+			JOptionPane.showMessageDialog(this, 
+					"Metodo open en Construccion,pero el number del archivo es: " + explorer.getSelectedFile().getName());
+		}
+	}
 	private void salga() {
 		int option = JOptionPane.showConfirmDialog(this, "Exit OchoOMas?", "Exit", JOptionPane.YES_NO_OPTION,
 				JOptionPane.QUESTION_MESSAGE);
