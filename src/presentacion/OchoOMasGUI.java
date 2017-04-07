@@ -130,6 +130,11 @@ public class OchoOMasGUI extends JFrame {
 				Seleccione();
 			}
 		});
+		save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				guarde();
+			}
+		});
 
 	}
 
@@ -146,6 +151,7 @@ public class OchoOMasGUI extends JFrame {
 		explorer = new JFileChooser();
 		explorer.setDialogTitle("Open");
 		explorer.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		explorer.showOpenDialog(this);
 		if (explorer.showOpenDialog(open) == JFileChooser.APPROVE_OPTION) {
 			JOptionPane.showMessageDialog(this, 
 					"Metodo open en Construccion,pero el nombre del archivo es: " + explorer.getSelectedFile().getName());
