@@ -125,7 +125,7 @@ public class OchoOMasGUI extends JFrame{
 				JOptionPane.QUESTION_MESSAGE);
 		if(option == JOptionPane.YES_OPTION){
 			System.exit(0);
-		}
+		 }
 	}
 	
 	private void prepareElementosMenu() {
