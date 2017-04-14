@@ -28,7 +28,8 @@ public class OchoOMasGUI extends JFrame {
 	private int xSize;
 	private int ySize;
 	private JFileChooser explorer;
-
+	private JColorChooser selectColor;
+	
 	public static void main(String[] args) {
 		OchoOMasGUI gui = new OchoOMasGUI();
 	}
@@ -58,6 +59,7 @@ public class OchoOMasGUI extends JFrame {
 
 	private void refresque() {
 		SwingUtilities.updateComponentTreeUI(this);
+		regenereColor();
 	}
 
 	private void prepareElementosTablero() {
@@ -70,13 +72,9 @@ public class OchoOMasGUI extends JFrame {
 			numbers = getRandomNumbers(xSize, ySize);
 		}
 		for (int i : numbers) {
-			JButton temp = new JButton(Integer.toString(i));
-			temp.setBackground(buttonLose);
-			temp.setOpaque(true);
-			temp.setContentAreaFilled(true);
-			buttonPanel.add(temp);
-			gamePanel.add(temp);
+			addButton(i);
 		}
+		addButton(0);
 		buttons = new JPanel();
 		buttons.setLayout(new FlowLayout());
 		play = new JButton("Play !");
@@ -89,7 +87,18 @@ public class OchoOMasGUI extends JFrame {
 		board.add(steps, BorderLayout.NORTH);
 
 	}
-
+	private void addButton(int i){
+		JButton temp;
+		if (i==0)
+			temp = new JButton(" ");
+		else
+			temp = new JButton(Integer.toString(i));
+		temp.setBackground(buttonLose);
+		temp.setOpaque(true);
+		temp.setContentAreaFilled(true);
+		buttonPanel.add(temp);
+		gamePanel.add(temp);
+	}
 	private boolean isAlmostOrdered(ArrayList<Integer> numbers) {
 		int j = numbers.get(0);
 		for (int i : numbers) {
@@ -135,9 +144,18 @@ public class OchoOMasGUI extends JFrame {
 				guarde();
 			}
 		});
+		changeColor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				colorChooser();
+			}
+		});
 
 	}
-
+	private void colorChooser(){
+		buttonLose = JColorChooser.showDialog(this, "hola ", Color.white);
+		refresque();
+	}
+	
 	private void Seleccione() {
 		explorer = new JFileChooser();
 		explorer.setDialogTitle("Open");
@@ -189,6 +207,11 @@ public class OchoOMasGUI extends JFrame {
 
 	private void centre() {
 		setLocation((screensize.width - getSize().width) / 2, (screensize.height - getSize().height) / 2);
+	}
+	private void regenereColor(){
+		for(JButton a: gamePanel){
+			a.setBackground(buttonLose);
+		}
 	}
 
 }
