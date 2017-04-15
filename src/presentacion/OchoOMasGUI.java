@@ -1,10 +1,9 @@
 package presentacion;
 
+import aplicacion.OchoOmas;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.io.*;
-import java.util.*;
 
 public class OchoOMasGUI extends JFrame {
 	public static Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -17,7 +16,7 @@ public class OchoOMasGUI extends JFrame {
 	private JMenuItem changeColor;
 	private JMenuItem changeSize;
 	private JLabel steps;
-	private ArrayList<JButton> gamePanel;
+	private JButton[][] gamePanel;
 	private JPanel buttonPanel;
 	private JPanel buttons;
 	private JPanel board;
@@ -25,11 +24,10 @@ public class OchoOMasGUI extends JFrame {
 	private JButton reset;
 	private Color buttonWin;
 	private Color buttonLose;
-	private int xSize;
 	private int ySize;
-	private JFileChooser explorer;
-	private JColorChooser selectColor;
-	
+	private int xSize;
+	private JFileChooser explorer;	
+	private OchoOmas logical;
 	public static void main(String[] args) {
 		OchoOMasGUI gui = new OchoOMasGUI();
 	}
@@ -38,9 +36,8 @@ public class OchoOMasGUI extends JFrame {
 		super();
 		buttonWin = Color.GREEN;
 		buttonLose = Color.gray;
-		gamePanel = new ArrayList<>();
-		xSize = 3;
 		ySize = 3;
+		xSize = 3;
 		setVisible(true);
 		setSize((int) screensize.width * 1 / 4, (int) screensize.height * 1 / 4);
 		setTitle("OchoOMas");
@@ -58,36 +55,48 @@ public class OchoOMasGUI extends JFrame {
 	}
 
 	private void refresque() {
-		SwingUtilities.updateComponentTreeUI(this);
+		resetButtons();
 		regenereColor();
+		SwingUtilities.updateComponentTreeUI(this);
+		
 	}
 
 	private void prepareElementosTablero() {
+		logical= new OchoOmas(xSize, ySize);
 		board = new JPanel();
-		board.setLayout(new BorderLayout());
-		buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(xSize, ySize));
-		ArrayList<Integer> numbers = getRandomNumbers(xSize, ySize);
-		while (!isAlmostOrdered(numbers)) {
-			numbers = getRandomNumbers(xSize, ySize);
-		}
-		for (int i : numbers) {
-			addButton(i);
-		}
-		addButton(0);
+		board.setLayout(new BorderLayout());		
+		resetButtons();
 		buttons = new JPanel();
 		buttons.setLayout(new FlowLayout());
 		play = new JButton("Play !");
 		reset = new JButton("Reset");
 		buttons.add(play);
 		buttons.add(reset);
-		board.add(buttonPanel, BorderLayout.CENTER);
 		board.add(buttons, BorderLayout.SOUTH);
 		steps = new JLabel("Steps: Int");
 		board.add(steps, BorderLayout.NORTH);
 
 	}
-	private void addButton(int i){
+	private void resetButtons(){
+		buttonPanel = new JPanel();
+		buttonPanel.setLayout(new GridLayout(ySize, xSize));
+		gamePanel = new JButton[ySize][xSize];
+		for (int i = 0; i < ySize; i++) {
+			for (int j = 0; j < xSize; j++) {
+				addButton(logical.getNumber(i, j), i,j);
+			}
+		}
+		board.add(buttonPanel, BorderLayout.CENTER);
+	}
+	private void changeid(){
+		for (int i = 0; i < ySize; i++) {
+			for (int j = 0; j < xSize; j++) {
+				int a=logical.getNumber(i, j);
+				gamePanel[i][j].setText(a!=0?Integer.toString(a):" ");
+			}
+		}
+	}
+	private void addButton(int i,int y,int x){
 		JButton temp;
 		if (i==0)
 			temp = new JButton(" ");
@@ -96,31 +105,22 @@ public class OchoOMasGUI extends JFrame {
 		temp.setBackground(buttonLose);
 		temp.setOpaque(true);
 		temp.setContentAreaFilled(true);
-		buttonPanel.add(temp);
-		gamePanel.add(temp);
-	}
-	private boolean isAlmostOrdered(ArrayList<Integer> numbers) {
-		int j = numbers.get(0);
-		for (int i : numbers) {
-			if (i - 1 == j) {
-				return true;
+		temp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				change(temp.getText());
 			}
-			j = i;
-		}
-		return false;
+		});
+		buttonPanel.add(temp);
+		gamePanel[y][x]=(temp);
+	}
+	private void change(String a){
+		if(a==" ")
+			logical.changeOrder(0);
+		else
+			logical.changeOrder(Integer.parseInt(a));
+		changeid();
 	}
 
-	private ArrayList<Integer> getRandomNumbers(int xSize2, int ySize2) {
-		ArrayList<Integer> res = new ArrayList<>();
-		Random inte = new Random();
-		while (res.size() != (xSize2 * ySize2) - 1) {
-			int a = inte.nextInt((xSize2 * ySize2) - 1) + 1;
-			if (res.indexOf(a) < 0) {
-				res.add(a);
-			}
-		}
-		return res;
-	}
 
 	private void prepareAcciones() {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -169,8 +169,7 @@ public class OchoOMasGUI extends JFrame {
 		explorer = new JFileChooser();
 		explorer.setDialogTitle("Open");
 		explorer.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		explorer.showOpenDialog(this);
-		if (explorer.showOpenDialog(open) == JFileChooser.APPROVE_OPTION) {
+		if (explorer.showSaveDialog(open) == JFileChooser.APPROVE_OPTION) {
 			JOptionPane.showMessageDialog(this, 
 					"Metodo open en Construccion,pero el nombre del archivo es: " + explorer.getSelectedFile().getName());
 		}
@@ -209,8 +208,9 @@ public class OchoOMasGUI extends JFrame {
 		setLocation((screensize.width - getSize().width) / 2, (screensize.height - getSize().height) / 2);
 	}
 	private void regenereColor(){
-		for(JButton a: gamePanel){
-			a.setBackground(buttonLose);
+		for(JButton [] a: gamePanel){
+			for(JButton b:a)
+				b.setBackground(buttonLose);
 		}
 	}
 
