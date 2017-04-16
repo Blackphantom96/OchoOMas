@@ -57,7 +57,7 @@ public class OchoOMasGUI extends JFrame {
 	private void refresque() {
 		SwingUtilities.updateComponentTreeUI(this);
 		regenereColor();
-	}
+		}
 
 	private void prepareElementosTablero() {
 		steps = 0;
@@ -154,9 +154,18 @@ public class OchoOMasGUI extends JFrame {
 				colorChooser();
 			}
 		});
+		reset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				resetee();
+			}
+		});
 
 	}
-
+	private void resetee(){
+		logical.reset(xSize, ySize);
+		changeid();
+		refresque();
+	}
 	private void colorChooser() {
 		colorButton = JColorChooser.showDialog(this, "hola ", Color.white);
 	}
