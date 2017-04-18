@@ -165,6 +165,7 @@ public class OchoOMasGUI extends JFrame {
 		logical.reset(xSize, ySize);
 		changeid();
 		refresque();
+		steps=0;
 	}
 	private void colorChooser() {
 		colorButton = JColorChooser.showDialog(this, "hola ", Color.white);

@@ -16,8 +16,8 @@ public class OchoOmas {
 	private ArrayList<Integer> getRandomNumbers(int xSize2, int ySize2) {
 		ArrayList<Integer> res = new ArrayList<>();
 		Random inte = new Random();
-		while (res.size() != (xSize2 * ySize2) - 1) {
-			int a = inte.nextInt((xSize2 * ySize2) - 1)+1 ;
+		while (res.size() != (xSize2 * ySize2)) {
+			int a = inte.nextInt((xSize2 * ySize2)) ;
 			if (res.indexOf(a) < 0) {
 				res.add(a);
 			}
@@ -66,7 +66,6 @@ public class OchoOmas {
 		tamx=x;
 		tamy=y;
 		matrix = new int[tamy][tamx];
-		hole=new int[]{tamx-1,tamy-1};
 		ArrayList<Integer> temporalArray = getRandomNumbers(tamy, tamx);
 		while(isAlmostOneOrdered(temporalArray))
 			temporalArray=getRandomNumbers(tamy,tamx);
@@ -77,6 +76,7 @@ public class OchoOmas {
 				matrix[i][j] = temporalArray.get(k++);
 			}
 		}
+		hole=getIndex(0);
 	}
 	public int getNumber(int y, int x){
 		return matrix[y][x];
