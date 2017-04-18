@@ -39,7 +39,7 @@ public class OchoOMasGUI extends JFrame {
 		ySize = 3;
 		xSize = 3;
 		setVisible(true);
-		setSize((int) screensize.width * 1 / 4, (int) screensize.height * 1 / 4);
+		setSize((int) screensize.width * 1 / 2, (int) screensize.height * 1 / 2);
 		setTitle("OchoOMas");
 		prepareElementos();
 		prepareAcciones();
@@ -159,6 +159,11 @@ public class OchoOMasGUI extends JFrame {
 				resetee();
 			}
 		});
+		changeSize.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				changeSize();
+			}
+		});
 
 	}
 	private void resetee(){
@@ -186,7 +191,7 @@ public class OchoOMasGUI extends JFrame {
 		explorer.setDialogTitle("Open");
 		explorer.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		if (explorer.showSaveDialog(open) == JFileChooser.APPROVE_OPTION) {
-			JOptionPane.showMessageDialog(this, "Metodo open en Construccion,pero el nombre del archivo es: "
+			JOptionPane.showMessageDialog(this, "Metodo save en Construccion,pero el nombre del archivo es: "
 					+ explorer.getSelectedFile().getName());
 		}
 	}
@@ -197,6 +202,7 @@ public class OchoOMasGUI extends JFrame {
 		if (option == JOptionPane.YES_OPTION) {
 			System.exit(0);
 		}
+		
 	}
 
 	private void prepareElementosMenu() {
@@ -220,7 +226,25 @@ public class OchoOMasGUI extends JFrame {
 		}
 		menu.add(cont);
 	}
-
+	
+	private void changeSize(){
+		JPanel doubleInt= new JPanel();
+		JTextField xField=new JTextField(2);
+		JTextField yField=new JTextField(2);
+		doubleInt.add(new JLabel("x: "));
+		doubleInt.add(xField);
+		doubleInt.add(Box.createHorizontalStrut(15));
+		doubleInt.add(new JLabel("y: "));
+		doubleInt.add(yField);
+		int result = JOptionPane.showConfirmDialog(null, doubleInt, 
+	               "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
+	      if (result == JOptionPane.OK_OPTION) {
+	         xSize=Integer.parseInt(xField.getText());
+	         ySize=Integer.parseInt(yField.getText());
+	      }
+	      prepareElementosTablero();
+	}
+	
 	private void centre() {
 		setLocation((screensize.width - getSize().width) / 2, (screensize.height - getSize().height) / 2);
 	}
