@@ -78,6 +78,8 @@ public class OchoOMasGUI extends JFrame {
 	}
 
 	private void resetButtons() {
+		if(buttonPanel!=null)
+			board.remove(buttonPanel);
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(ySize, xSize));
 		gamePanel = new JButton[ySize][xSize];
@@ -118,13 +120,10 @@ public class OchoOMasGUI extends JFrame {
 	}
 
 	private void change(String a) {
-		if (a == " ")
-			logical.changeOrder(0);
-		else if (logical.changeOrder(Integer.parseInt(a)))
+		if (!a.equals(" ") && logical.changeOrder(Integer.parseInt(a)))
 			steps++;
 		changeid();
 		refresque();
-
 	}
 
 	private void prepareAcciones() {
@@ -167,10 +166,9 @@ public class OchoOMasGUI extends JFrame {
 
 	}
 	private void resetee(){
-		logical.reset(xSize, ySize);
-		changeid();
-		refresque();
-		steps=0;
+		remove(board);
+		prepareElementos();
+		prepareAcciones();
 	}
 	private void colorChooser() {
 		colorButton = JColorChooser.showDialog(this, "hola ", Color.white);
@@ -242,7 +240,7 @@ public class OchoOMasGUI extends JFrame {
 	         xSize=Integer.parseInt(xField.getText());
 	         ySize=Integer.parseInt(yField.getText());
 	      }
-	      prepareElementosTablero();
+	      resetee();
 	}
 	
 	private void centre() {
@@ -252,7 +250,7 @@ public class OchoOMasGUI extends JFrame {
 	private void regenereColor() {
 		for (JButton[] a : gamePanel) {
 			for (JButton b : a) {
-				if (logical.isSolved())
+				if (logical.isSolved(b.getText().equals(" ")?0:Integer.parseInt(b.getText())))
 					b.setBackground(colorButton);
 				else
 					b.setBackground(Color.white);

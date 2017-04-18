@@ -25,7 +25,7 @@ public class OchoOmas {
 		return res;
 	}
 	public boolean changeOrder(int i){
-		int[] index = getIndex(i);
+		int[] index = getIndex(i,matrix);
 		if(Math.abs(Math.abs(index[0]-hole[0])+Math.abs(index[1]-hole[1])) ==1){
 			matrix[hole[1]][hole[0]]=i;
 			hole=copy(index);
@@ -41,33 +41,34 @@ public class OchoOmas {
 	        temp[x] = a[x];
 		return temp;
 	}
-	private int[] getIndex(int k){
+	private int[] getIndex(int k,int[][]ma){
 		int[] res = new int[2];
 		for (int i = 0; i < tamy; i++) {
 			for (int j = 0; j < tamx; j++) {
-				if(matrix[i][j]==k)
+				if(ma[i][j]==k)
 					return res=new int[]{j,i};
 			}
 		}
 		return res;
 	}
 	
-	private boolean isAlmostOneOrdered(ArrayList<Integer> numbers) {
-		int j = numbers.get(0);
-		for (int i : numbers) {
-			if (i - 1 == j) {
-				return true;
-			}
-			j = i;
+	private boolean isAlmostTwoOrdered(ArrayList<Integer> numbers) {
+		int k=1;
+		int count=0;
+		for(int i:numbers){
+			if(k==i)
+				count++;
+			k++;
 		}
-		return false;
+		count=numbers.get(numbers.size()-1)==0?count++:count;
+		return count>=2;
 	}
 	public void reset(int x,int y){
 		tamx=x;
 		tamy=y;
 		matrix = new int[tamy][tamx];
 		ArrayList<Integer> temporalArray = getRandomNumbers(tamy, tamx);
-		while(isAlmostOneOrdered(temporalArray))
+		while(!isAlmostTwoOrdered(temporalArray))
 			temporalArray=getRandomNumbers(tamy,tamx);
 		temporalArray.add(0);
 		int k = 0;
@@ -76,12 +77,12 @@ public class OchoOmas {
 				matrix[i][j] = temporalArray.get(k++);
 			}
 		}
-		hole=getIndex(0);
+		hole=getIndex(0,matrix);
 	}
 	public int getNumber(int y, int x){
 		return matrix[y][x];
 	}
-	public boolean isSolved(){
+	public boolean isSolved(int a){
 		int k = 1;
 		int temp[][]=new int[tamy][tamx];
 		for (int i = 0; i < tamy; i++) {
@@ -90,7 +91,7 @@ public class OchoOmas {
 			}
 		}
 		temp[tamy-1][tamx-1]=0;
-		return Arrays.deepEquals(temp, matrix);
+		return Arrays.equals(getIndex(a,temp),getIndex(a, matrix));
 	}
 	public void printmat(int[][] a){
 		for(int[]b:a){
