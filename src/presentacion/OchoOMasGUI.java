@@ -33,11 +33,14 @@ public class OchoOMasGUI extends JFrame {
 		OchoOMasGUI gui = new OchoOMasGUI();
 	}
 
+	/**
+	 * creador
+	 */
 	private OchoOMasGUI() {
 		super();
 		colorButton=Color.green;
-		ySize = 2;
-		xSize = 2;
+		ySize = 6;
+		xSize = 6;
 		setVisible(true);
 		setSize((int) screensize.width * 1 / 2, (int) screensize.height * 1 / 2);
 		setTitle("OchoOMas");
@@ -45,6 +48,9 @@ public class OchoOMasGUI extends JFrame {
 		prepareAcciones();
 	}
 
+	/**
+	 * prepara los elementos
+	 */
 	private void prepareElementos() {
 		centre();
 		prepareElementosMenu();
@@ -54,11 +60,17 @@ public class OchoOMasGUI extends JFrame {
 		refresque();
 	}
 
+	/**
+	 * refresca el tablero
+	 */
 	private void refresque() {
 		SwingUtilities.updateComponentTreeUI(this);
 		regenereColor();
 		}
 
+	/**
+	 * prepara los elemtos del tablero
+	 */
 	private void prepareElementosTablero() {
 		steps = 0;
 		logical = new OchoOmas(xSize, ySize);
@@ -77,6 +89,9 @@ public class OchoOMasGUI extends JFrame {
 
 	}
 
+	/**
+	 * crea los botones del tablero
+	 */
 	private void resetButtons() {
 		if(buttonPanel!=null)
 			board.remove(buttonPanel);
@@ -91,6 +106,9 @@ public class OchoOMasGUI extends JFrame {
 		board.add(buttonPanel, BorderLayout.CENTER);
 	}
 
+	/**
+	 * cambia los textos de los botones 
+	 */
 	private void changeid() {
 		for (int i = 0; i < ySize; i++) {
 			for (int j = 0; j < xSize; j++) {
@@ -101,6 +119,12 @@ public class OchoOMasGUI extends JFrame {
 		stepsLabel.setText("Steps: " + steps);
 	}
 
+	/**
+	 * agrega un boton con sus caracterisitcas
+	 * @param i el texto del boton
+	 * @param y la pos en y
+	 * @param x la pos en x
+	 */
 	private void addButton(int i, int y, int x) {
 		JButton temp;
 		if (i == 0)
@@ -120,6 +144,10 @@ public class OchoOMasGUI extends JFrame {
 		gamePanel[y][x] = (temp);
 	}
 
+	/**
+	 * cambia la posicion de un boton si es posible
+	 * @param a elnumeor a cambiar
+	 */
 	private void change(String a) {
 		if (!a.equals(" ") && logical.changeOrder(Integer.parseInt(a)))
 			steps++;
@@ -127,6 +155,9 @@ public class OchoOMasGUI extends JFrame {
 		refresque();
 	}
 
+	/**
+	 * prepara las acciones de los botoones
+	 */
 	private void prepareAcciones() {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
@@ -166,15 +197,24 @@ public class OchoOMasGUI extends JFrame {
 		});
 
 	}
+	/**
+	 * resetea el tablero 
+	 */
 	private void resetee(){
 		remove(board);
 		prepareElementos();
 		prepareAcciones();
 	}
+	/**
+	 * cambia el color de los botones que coinciden 
+	 */
 	private void colorChooser() {
-		colorButton = JColorChooser.showDialog(this, "hola ", Color.white);
+		colorButton = JColorChooser.showDialog(this, "Seleccione el color", Color.white);
 	}
 
+	/**
+	 * permite seleccionar archivos
+	 */
 	private void Seleccione() {
 		explorer = new JFileChooser();
 		explorer.setDialogTitle("Open...");
@@ -185,6 +225,9 @@ public class OchoOMasGUI extends JFrame {
 		}
 	}
 
+	/**
+	 *permite guardar archivos 
+	 */
 	private void guarde() {
 		explorer = new JFileChooser();
 		explorer.setDialogTitle("Save...");
@@ -195,6 +238,9 @@ public class OchoOMasGUI extends JFrame {
 		}
 	}
 
+	/**
+	 * da la opcion para salir del GUI
+	 */
 	private void salga() {
 		int option = JOptionPane.showConfirmDialog(this, "Exit OchoOMas?", "Exit", JOptionPane.YES_NO_OPTION,
 				JOptionPane.QUESTION_MESSAGE);
@@ -204,6 +250,9 @@ public class OchoOMasGUI extends JFrame {
 		
 	}
 
+	/**
+	 * prepara elementos menu
+	 */
 	private void prepareElementosMenu() {
 		menu = new JMenuBar();
 		cont = new JMenu("Menu");
@@ -226,6 +275,9 @@ public class OchoOMasGUI extends JFrame {
 		menu.add(cont);
 	}
 	
+	/**
+	 * cambia el tamaño del GUI
+	 */
 	private void changeSize(){
 		JPanel doubleInt= new JPanel();
 		JTextField xField=new JTextField(2);
@@ -244,10 +296,16 @@ public class OchoOMasGUI extends JFrame {
 	      resetee();
 	}
 	
+	/**
+	 * centra el GUI
+	 */
 	private void centre() {
 		setLocation((screensize.width - getSize().width) / 2, (screensize.height - getSize().height) / 2);
 	}
 
+	/**
+	 * regenera el color 
+	 */
 	private void regenereColor() {
 		for (JButton[] a : gamePanel) {
 			for (JButton b : a) {
