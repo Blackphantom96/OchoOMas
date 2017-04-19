@@ -26,7 +26,7 @@ public class OchoOMasGUI extends JFrame {
 	private int ySize;
 	private int xSize;
 	private int steps;
-	private JFileChooser explorer; 
+	private JFileChooser explorer;
 	private OchoOmas logical;
 
 	public static void main(String[] args) {
