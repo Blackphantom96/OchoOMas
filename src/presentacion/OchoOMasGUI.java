@@ -110,7 +110,7 @@ public class OchoOMasGUI extends JFrame {
 		temp.setBackground(Color.white);
 		temp.setOpaque(true);
 		temp.setContentAreaFilled(true);
-		temp.setFont(new Font("Courier", Font.BOLD, 28));
+		temp.setFont(new Font("Courier", Font.BOLD, 28)); 
 		temp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				change(temp.getText());
