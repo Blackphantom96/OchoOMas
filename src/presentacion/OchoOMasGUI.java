@@ -36,8 +36,8 @@ public class OchoOMasGUI extends JFrame {
 	private OchoOMasGUI() {
 		super();
 		colorButton=Color.green;
-		ySize = 3;
-		xSize = 3;
+		ySize = 2;
+		xSize = 2;
 		setVisible(true);
 		setSize((int) screensize.width * 1 / 2, (int) screensize.height * 1 / 2);
 		setTitle("OchoOMas");
