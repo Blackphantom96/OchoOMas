@@ -110,6 +110,7 @@ public class OchoOMasGUI extends JFrame {
 		temp.setBackground(Color.white);
 		temp.setOpaque(true);
 		temp.setContentAreaFilled(true);
+		temp.setFont(new Font("Courier", Font.BOLD, 28));
 		temp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				change(temp.getText());
@@ -176,20 +177,20 @@ public class OchoOMasGUI extends JFrame {
 
 	private void Seleccione() {
 		explorer = new JFileChooser();
-		explorer.setDialogTitle("Open");
+		explorer.setDialogTitle("Open...");
 		explorer.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		if (explorer.showOpenDialog(open) == JFileChooser.APPROVE_OPTION) {
-			JOptionPane.showMessageDialog(this, "Metodo open en Construccion,pero el nombre del archivo es: "
+			JOptionPane.showMessageDialog(this, "Metodo open en construccion, pero el nombre del archivo es: "
 					+ explorer.getSelectedFile().getName());
 		}
 	}
 
 	private void guarde() {
 		explorer = new JFileChooser();
-		explorer.setDialogTitle("Open");
+		explorer.setDialogTitle("Save...");
 		explorer.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		if (explorer.showSaveDialog(open) == JFileChooser.APPROVE_OPTION) {
-			JOptionPane.showMessageDialog(this, "Metodo save en Construccion,pero el nombre del archivo es: "
+			JOptionPane.showMessageDialog(this, "Metodo save en construccion, pero el nombre del archivo es: "
 					+ explorer.getSelectedFile().getName());
 		}
 	}
